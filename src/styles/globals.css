@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+@theme {
+  /* Color palette based on #d0422c */
+  --color-primary-50: #fef3f2;
+  --color-primary-100: #fee4e1;
+  --color-primary-200: #fecdc8;
+  --color-primary-300: #fca9a1;
+  --color-primary-400: #f87a6c;
+  --color-primary-500: #d0422c;
+  --color-primary-600: #be3a26;
+  --color-primary-700: #9f2f1e;
+  --color-primary-800: #832b1e;
+  --color-primary-900: #6e291f;
+  --color-primary-950: #3c110b;
+
+  /* Neutral palette based on #777777 */
+  --color-neutral-50: #f7f7f7;
+  --color-neutral-100: #ededed;
+  --color-neutral-200: #dfdfdf;
+  --color-neutral-300: #c8c8c8;
+  --color-neutral-400: #adadad;
+  --color-neutral-500: #777777;
+  --color-neutral-600: #6a6a6a;
+  --color-neutral-700: #585858;
+  --color-neutral-800: #454545;
+  --color-neutral-900: #333333;
+  --color-neutral-950: #1a1a1a;
+
+  --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-white text-neutral-900 font-sans;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-semibold tracking-tight text-neutral-950;
+  }
+
+  a {
+    @apply transition-colors duration-200;
+  }
+
+  ::selection {
+    @apply bg-primary-500 text-white;
+  }
+}
+
+@layer utilities {
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+}
