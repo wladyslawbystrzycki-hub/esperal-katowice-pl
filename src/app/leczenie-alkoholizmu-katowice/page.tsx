@@ -58,7 +58,7 @@ export default function LeczeniePage() {
           { label: 'Zadzwoń', href: siteConfig.links.phone, variant: 'primary' },
           { label: 'Kontakt', href: '/kontakt', variant: 'outline' },
         ]}
-        imageSrc="/images/hero-detoks.jpg"
+        imageSrc="/images/smiling-indian-caring-doctor-supporting-holding-hand-olde-senior-female-patient-lying-bed-clinic-hospital-elderly-people-health-care-concept.jpg"
         imageAlt="Leczenie alkoholizmu Katowice - detoks alkoholowy"
       />
 
