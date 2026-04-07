@@ -15,6 +15,9 @@ export const metadata: Metadata = {
     'wszywka alkoholowa',
     'psychoterapia uzależnień',
   ],
+  alternates: {
+    canonical: `${siteConfig.url}/leczenie-alkoholizmu-katowice`,
+  },
   openGraph: {
     title: 'Leczenie alkoholizmu Katowice – detoks, psychoterapia, wszywka',
     description:

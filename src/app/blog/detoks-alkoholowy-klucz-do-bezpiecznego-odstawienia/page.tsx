@@ -18,6 +18,9 @@ export const metadata: Metadata = {
     'delirium tremens',
     'detoksykacja katowice',
   ],
+  alternates: {
+    canonical: `${siteConfig.url}/blog/detoks-alkoholowy-klucz-do-bezpiecznego-odstawienia`,
+  },
   openGraph: {
     title: 'Detoks alkoholowy – klucz do bezpiecznego odstawienia',
     description:

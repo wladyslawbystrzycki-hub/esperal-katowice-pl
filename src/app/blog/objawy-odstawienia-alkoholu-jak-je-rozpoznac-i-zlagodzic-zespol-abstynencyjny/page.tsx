@@ -18,6 +18,9 @@ export const metadata: Metadata = {
     'odtrucie alkoholowe katowice',
     'leczenie alkoholizmu',
   ],
+  alternates: {
+    canonical: `${siteConfig.url}/blog/objawy-odstawienia-alkoholu-jak-je-rozpoznac-i-zlagodzic-zespol-abstynencyjny`,
+  },
   openGraph: {
     title:
       'Objawy odstawienia alkoholu – jak je rozpoznać i złagodzić zespół abstynencyjny?',

@@ -6,6 +6,9 @@ export const metadata: Metadata = {
   title: 'Kontakt – Detoks Katowice | Odtrucie alkoholowe 24/7',
   description:
     'Skontaktuj się z nami — oferujemy profesjonalny detoks alkoholowy w Katowicach. Działamy 24/7, gwarantujemy pełną dyskrecję. Zadzwoń lub napisz.',
+  alternates: {
+    canonical: `${siteConfig.url}/kontakt`,
+  },
   openGraph: {
     title: 'Kontakt – Detoks Katowice',
     description:
