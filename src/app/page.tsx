@@ -234,7 +234,7 @@ export default function HomePage() {
           </figure>
 
           <p>
-            <strong className="text-neutral-950">Odtrucie alkoholowe Katowice</strong> jest dobrym
+            <a href="https://nasz-gabinet.pl/leczenie-alkoholizmu/detoks/" className="font-bold text-neutral-950 underline hover:text-primary-500 transition-colors">Odtrucie alkoholowe Katowice</a> jest dobrym
             początkiem walki z alkoholizmem. Oferujemy całe nasze doświadczenie i wiedzę z zakresu
             uzależnienia od alkoholu, aby nasi pacjenci w możliwie krótkim czasie wrócili do
             zdrowia. Zabieg detoksykacji jest dobrym początkiem dalszych terapii uzależnień
