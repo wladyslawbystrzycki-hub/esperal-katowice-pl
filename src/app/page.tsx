@@ -9,80 +9,9 @@ import {
 } from '@/components/ui';
 import { JsonLd, createWebsiteSchema, createLocalBusinessSchema } from '@/components/seo/json-ld';
 import { siteConfig } from '@/lib/site-config';
+import { getPricing } from '@/lib/pricing';
 
-const pricingPlans = [
-  {
-    title: 'Detoks alkoholowy 3h',
-    price: '700 zł',
-    priceLabel: 'Kup on-line',
-    buttonLabel: 'Umów wizytę',
-    buttonHref: 'tel:+48505373276',
-    features: [
-      { text: 'Szybkie przerwanie ciągu', included: true },
-      { text: 'Kroplówka z płynami i witaminami', included: true },
-      { text: 'Poprawa samopoczucia', included: true },
-      { text: 'Stabilizacja układu nerwowego', included: false },
-      { text: 'Wyrównanie elektrolitów', included: false },
-    ],
-  },
-  {
-    title: 'Detoks alkoholowy 6h',
-    price: '1 350 zł',
-    priceLabel: 'Kup on-line',
-    buttonLabel: 'Umów wizytę',
-    buttonHref: 'tel:+48505373276',
-    features: [
-      { text: 'Głębsze oczyszczenie organizmu', included: true },
-      { text: 'Stabilizacja układu nerwowego', included: true },
-      { text: 'Nadzór medyczny', included: true },
-      { text: 'Wyrównanie elektrolitów', included: false },
-      { text: 'Wszywka alkoholowa', included: false },
-    ],
-  },
-  {
-    title: 'Detoks alkoholowy 12h',
-    price: '1 650 zł',
-    priceLabel: 'Kup on-line',
-    buttonLabel: 'Umów wizytę',
-    buttonHref: 'tel:+48505373276',
-    highlighted: true,
-    features: [
-      { text: 'Pełne odtrucie organizmu', included: true },
-      { text: 'Wyrównanie elektrolitów', included: true },
-      { text: 'Minimalizacja ryzyka powikłań', included: true },
-      { text: 'Nadzór medyczny', included: true },
-      { text: 'Wszywka alkoholowa', included: false },
-    ],
-  },
-  {
-    title: 'Detoks 6h + Wszywka',
-    price: '1 899 zł',
-    priceLabel: 'Kup on-line',
-    buttonLabel: 'Umów wizytę',
-    buttonHref: 'tel:+48505373276',
-    features: [
-      { text: 'Detoks alkoholowy 6h', included: true },
-      { text: 'Wszywka Standard', included: true },
-      { text: 'Darmowa kontrola', included: true },
-      { text: 'Recepta na lek na głód alkoholowy', included: false },
-      { text: 'Szwy rozpuszczalne', included: false },
-    ],
-  },
-  {
-    title: 'Detoks 12h + Wszywka VIP',
-    price: '2 499 zł',
-    priceLabel: 'Kup on-line',
-    buttonLabel: 'Umów wizytę',
-    buttonHref: 'tel:+48505373276',
-    features: [
-      { text: 'Detoks alkoholowy 12h', included: true },
-      { text: 'Wszywka VIP', included: true },
-      { text: 'Szwy rozpuszczalne', included: true },
-      { text: 'Recepta na lek na głód alkoholowy', included: true },
-      { text: 'Darmowa kontrola', included: true },
-    ],
-  },
-];
+const pricing = getPricing();
 
 const stats = [
   { value: '500+', label: 'Zadowolonych pacjentów' },
@@ -124,7 +53,7 @@ export default function HomePage() {
         description="Bezpieczna i skuteczna detoksykacja z nagromadzonego w organizmie alkoholu etylowego. Działamy 24/7, również w niedziele i święta."
         buttons={[
           { label: 'Zadzwoń', href: siteConfig.links.phone, variant: 'primary' },
-          { label: 'Napisz', href: '/kontakt', variant: 'outline' },
+          { label: 'Rejestracja', href: '#e-rejestracja', variant: 'outline' },
         ]}
         imageSrc="/images/smiling-indian-caring-doctor-supporting-holding-hand-olde-senior-female-patient-lying-bed-clinic-hospital-elderly-people-health-care-concept.jpg"
         imageAlt="Odtrucie alkoholowe Katowice - detoks alkoholowy"
@@ -135,10 +64,10 @@ export default function HomePage() {
 
       {/* Cennik */}
       <PricingSection
-        title="Cennik usług"
-        subtitle="Wybierz pakiet dopasowany do Twoich potrzeb. Wszystkie zabiegi realizowane pod nadzorem lekarza."
-        plans={pricingPlans}
-        className="bg-neutral-50"
+        data={pricing}
+        title="Cennik"
+        subtitle="Wybierz interesującą Cię usługę"
+        defaultCategory="detoks"
       />
 
       {/* Detoks alkoholowy — opis */}
@@ -244,43 +173,6 @@ export default function HomePage() {
         </div>
       </Section>
 
-      {/* Cennik detoksu */}
-      <Section id="cena-detoksu" className="pricing-info-section">
-        <Heading subtitle="Ceny odtrucia w katowickiej placówce">
-          Ile kosztuje detoks alkoholowy?
-        </Heading>
-        <p className="pricing-info-section__text text-neutral-600 leading-relaxed">
-          Ceny odtrucia zaczynają się od{' '}
-          <strong className="text-neutral-950">700 zł</strong> — za 3-godzinne podłączenie do
-          specjalistycznych kroplówek i wlewów witaminowych mających na celu oczyszczenie organizmu,
-          a także dostarczenie potrzebnych witamin i substancji.
-        </p>
-
-        <ul className="pricing-info-section__list mt-6 space-y-3">
-          {[
-            { name: 'Detoks 3 godziny', price: '700 zł' },
-            { name: 'Detoks 6 godzin', price: '1 350 zł' },
-            { name: 'Detoks 12 godzin', price: '1 650 zł' },
-            { name: 'Detoks 6h + Wszywka', price: '1 899 zł' },
-            { name: 'Detoks 12h + Wszywka VIP', price: '2 499 zł' },
-          ].map((item) => (
-            <li
-              key={item.name}
-              className="pricing-info-section__list-item flex items-center justify-between rounded-lg border border-neutral-200 bg-white px-5 py-3"
-            >
-              <span className="font-medium text-neutral-950">{item.name}</span>
-              <span className="text-lg font-semibold text-primary-500">{item.price}</span>
-            </li>
-          ))}
-        </ul>
-
-        <div className="mt-6 text-center">
-          <a href={siteConfig.links.phone}>
-            <Button size="lg">Umów wizytę: {siteConfig.phoneFormatted}</Button>
-          </a>
-        </div>
-      </Section>
-
       {/* Detoks w domu pacjenta */}
       <Section id="detoks-domowy" className="home-visit-section bg-neutral-950 text-white">
         <div className="home-visit-section__content text-center">
@@ -330,13 +222,13 @@ export default function HomePage() {
                 Zadzwoń: {siteConfig.phoneFormatted}
               </Button>
             </a>
-            <a href={siteConfig.links.email}>
+            <a href="#e-rejestracja">
               <Button
                 variant="outline"
                 size="lg"
                 className="border-white text-white hover:bg-white/10"
               >
-                Napisz do nas
+                Rejestracja
               </Button>
             </a>
           </div>

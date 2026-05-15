@@ -6,8 +6,9 @@ import { JsonLd } from '@/components/seo/json-ld';
 import { siteConfig } from '@/lib/site-config';
 
 export const metadata: Metadata = {
-  title:
-    'Detoks alkoholowy – klucz do bezpiecznego odstawienia | Detoks Katowice',
+  title: {
+    absolute: 'Detoks alkoholowy - klucz do bezpiecznego odstawienia | Detoks Katowice',
+  },
   description:
     'Detoks alkoholowy to pierwszy krok w leczeniu uzależnienia od alkoholu. Dowiedz się, na czym polega detoksykacja, jakie są objawy zespołu abstynencyjnego i dlaczego profesjonalne odtrucie jest tak ważne.',
   keywords: [
@@ -446,11 +447,11 @@ export default function BlogPostPage() {
                 Zadzwoń: {siteConfig.phoneFormatted}
               </Button>
             </a>
-            <Link href="/kontakt">
+            <a href="#e-rejestracja">
               <Button variant="outline" size="lg">
-                Napisz do nas
+                Rejestracja
               </Button>
-            </Link>
+            </a>
           </div>
         </div>
 

@@ -6,8 +6,9 @@ import { JsonLd } from '@/components/seo/json-ld';
 import { siteConfig } from '@/lib/site-config';
 
 export const metadata: Metadata = {
-  title:
-    'Objawy odstawienia alkoholu – jak je rozpoznać i złagodzić zespół abstynencyjny? | Detoks Katowice',
+  title: {
+    absolute: 'Objawy odstawienia alkoholu - jak rozpoznać zespół abstynencyjny | Detoks Katowice',
+  },
   description:
     'Objawy odstawienia alkoholu mogą być niebezpieczne. Dowiedz się, jak rozpoznać zespół abstynencyjny, jak przebiega detoks alkoholowy i jak złagodzić objawy odstawienne.',
   keywords: [
@@ -294,11 +295,11 @@ export default function BlogPostPage() {
                 Zadzwoń: {siteConfig.phoneFormatted}
               </Button>
             </a>
-            <Link href="/kontakt">
+            <a href="#e-rejestracja">
               <Button variant="outline" size="lg">
-                Napisz do nas
+                Rejestracja
               </Button>
-            </Link>
+            </a>
           </div>
         </div>
 

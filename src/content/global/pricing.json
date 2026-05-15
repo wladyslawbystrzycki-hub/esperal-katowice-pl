@@ -1,0 +1,281 @@
+{
+  "categories": [
+    {
+      "id": "wszywka",
+      "label": "Wszywka alkoholowa",
+      "tiles": [
+        {
+          "title": "Wszywka alkoholowa Standard z własnym lekiem",
+          "price": "od 349 zł",
+          "priceType": "Uniemożliwienie spożywania alkoholu.",
+          "ctaLabel": "Kup teraz!",
+          "benefits": [
+            "Darmowa konsultacja z lekarzem online",
+            "Blokada uzależnienia",
+            "Antybiotyk na receptę",
+            "Szwy rozpuszczalne lub nierozpuszczalne",
+            "Zwolnienie lekarskie L4"
+          ]
+        },
+        {
+          "title": "Wszywka alkoholowa Standard",
+          "price": "od 899 zł",
+          "priceType": "Uniemożliwienie spożywania alkoholu.",
+          "ctaLabel": "Kup teraz!",
+          "benefits": [
+            "Darmowa konsultacja z lekarzem online",
+            "Blokada uzależnienia",
+            "Antybiotyk na receptę",
+            "Szwy rozpuszczalne lub nierozpuszczalne",
+            "Zwolnienie lekarskie L4"
+          ]
+        },
+        {
+          "title": "Wszywka alkoholowa VIP",
+          "price": "od 1199 zł",
+          "priceType": "Uniemożliwienie spożywania alkoholu.",
+          "ctaLabel": "Kup teraz!",
+          "benefits": [
+            "Zwiększona dawka leku",
+            "Nici rozpuszczalne",
+            "Antybiotyk domięśniowo",
+            "1 bezpłatna wizyta",
+            "Darmowa konsultacja z lekarzem online",
+            "Zwolnienie L4"
+          ]
+        },
+        {
+          "title": "Wszywka alkoholowa Exclusive",
+          "price": "od 2000 zł",
+          "priceType": "Najwyższy standard farmakoterapii",
+          "ctaLabel": "Kup teraz!",
+          "benefits": [
+            "Najwyższa dawka leku",
+            "Nici rozpuszczalne",
+            "Antybiotyk domięśniowo",
+            "2 bezpłatne wizyty",
+            "Darmowa konsultacja z lekarzem online",
+            "Wysoka skuteczność"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "detoks",
+      "label": "Detoks alkoholowy",
+      "tiles": [
+        {
+          "title": "Detoks alkoholowy 3h",
+          "price": "700 zł",
+          "priceType": "Pomoc w odstawieniu alkoholu.",
+          "ctaLabel": "Kup detoks 3h",
+          "benefits": [
+            "Pomoc w odstawieniu",
+            "Przerwanie ciągu alkoholowego",
+            "Likwidacja objawów odstawiennych",
+            "Wypłukanie toksyn",
+            "Stosowany do bezpiecznego leczenia kilkudniowego kaca"
+          ]
+        },
+        {
+          "title": "Detoks alkoholowy 6h",
+          "price": "1350 zł",
+          "priceType": "Pomoc w odstawieniu alkoholu.",
+          "ctaLabel": "Kup detoks 6h!",
+          "benefits": [
+            "Pomoc w odstawieniu",
+            "Przerwanie ciągu alkoholowego",
+            "Likwidacja objawów odstawiennych",
+            "Wyrównanie elektrolitów",
+            "Wypłukanie toksyn",
+            "Stosowany dla bezpiecznego przerywania krótkich ciągów alkoholowych"
+          ]
+        },
+        {
+          "title": "Detoks alkoholowy 12h",
+          "price": "1850 zł",
+          "priceType": "Pomoc w odstawieniu alkoholu.",
+          "ctaLabel": "Kup detoks 12h!",
+          "benefits": [
+            "Pomoc w odstawieniu",
+            "Przerwanie ciągu alkoholowego",
+            "Likwidacja objawów odstawiennych",
+            "Wyrównanie elektrolitów",
+            "Wypłukanie toksyn",
+            "Stosowany do bezpiecznego przerywania ciągów alkoholowych"
+          ]
+        },
+        {
+          "title": "Detoks MAX",
+          "price": "2650 zł",
+          "priceType": "Pomoc w odstawieniu alkoholu.",
+          "ctaLabel": "Kup detoks MAX!",
+          "benefits": [
+            "Pomoc w odstawieniu",
+            "Przerwanie ciągu alkoholowego",
+            "Likwidacja objawów odstawiennych",
+            "Wyrównanie elektrolitów",
+            "Wypłukanie toksyn",
+            "Stosowany dla bezpiecznego przerywania długotrwałych ciągów alkoholowych"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "detoks-wyjazdowy",
+      "label": "Detoks wyjazdowy",
+      "tiles": [
+        {
+          "title": "Detoks 1h wyjazdowy – PROMOCJA",
+          "price": "499 zł",
+          "priceType": "Wygodne odtrucie alkoholowe w Twoim domu",
+          "ctaLabel": "Kup detoks dojazdowy"
+        },
+        {
+          "title": "Detoks 2h wyjazdowy",
+          "price": "1050-1350 zł",
+          "priceType": "Wygodne odtrucie alkoholowe w Twoim domu",
+          "ctaLabel": "Kup detoks dojazdowy"
+        },
+        {
+          "title": "Detoks 3h wyjazdowy",
+          "price": "1250-1650 zł",
+          "priceType": "Wygodne odtrucie alkoholowe w Twoim domu",
+          "ctaLabel": "Kup detoks dojazdowy"
+        },
+        {
+          "title": "Detoks 6h wyjazdowy",
+          "price": "2300-2650 zł",
+          "priceType": "Wygodne odtrucie alkoholowe w Twoim domu",
+          "ctaLabel": "Kup detoks dojazdowy"
+        },
+        {
+          "title": "Detoks 12h wyjazdowy",
+          "price": "3350-3750 zł",
+          "priceType": "Wygodne odtrucie alkoholowe w Twoim domu",
+          "ctaLabel": "Kup detoks dojazdowy"
+        }
+      ]
+    },
+    {
+      "id": "psychoterapia",
+      "label": "Psychoterapia",
+      "tiles": [
+        {
+          "title": "Psychoterapia indywidualna stacjonarnie",
+          "price": "250 zł",
+          "priceType": "Indywidualna stacjonarna sesja psychoterapii uzależnień.",
+          "ctaLabel": "Kup psychoterapię",
+          "benefits": [
+            "Profesjonalna sesja terapeutyczna",
+            "Gwarancja dyskrecji",
+            "Kompleksowa diagnoza",
+            "Wsparcie",
+            "Indywidualny plan terapii",
+            "Wysoka skuteczność"
+          ]
+        },
+        {
+          "title": "Psychoterapia indywidualna online",
+          "price": "250 zł",
+          "priceType": "Indywidualna sesja psychoterapii uzależnień online.",
+          "ctaLabel": "Kup psychoterapię",
+          "benefits": [
+            "Profesjonalna sesja terapeutyczna",
+            "Gwarancja dyskrecji",
+            "Kompleksowa diagnoza",
+            "Wsparcie",
+            "Indywidualny plan terapii",
+            "Wysoka skuteczność"
+          ]
+        },
+        {
+          "title": "Psychoterapia – DDA (Dorosłe Dziecko Alkoholika)",
+          "price": "250 zł",
+          "priceType": "Indywidualna sesja psychoterapii uzależnień.",
+          "ctaLabel": "Kup psychoterapię",
+          "benefits": [
+            "Profesjonalna sesja terapeutyczna",
+            "Gwarancja dyskrecji",
+            "Kompleksowa diagnoza",
+            "Wsparcie",
+            "Indywidualny plan terapii",
+            "Wysoka skuteczność"
+          ]
+        },
+        {
+          "title": "Psychoterapia – Ja i bliscy",
+          "price": "300 zł",
+          "priceType": "Grupowe sesje psychoterapii uzależnień.",
+          "ctaLabel": "Kup psychoterapię",
+          "benefits": [
+            "Profesjonalna sesja terapeutyczna",
+            "Gwarancja dyskrecji",
+            "Kompleksowa diagnoza",
+            "Wsparcie",
+            "Indywidualny plan terapii",
+            "Wysoka skuteczność"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ekonsultacje",
+      "label": "E-konsultacje i e-recepty",
+      "tiles": [
+        {
+          "title": "E-konsultacja z lekarzem ds. uzależnień",
+          "price": "350 zł",
+          "priceType": "Konsultacja lekarska/psychiatryczna.",
+          "ctaLabel": "Kup e-konsultację",
+          "benefits": [
+            "Konsultacja lekarska",
+            "Konsultacja psychiatryczna",
+            "Indywidualne podejście",
+            "Prywatność",
+            "Pełna dyskrecja"
+          ]
+        },
+        {
+          "title": "E-recepta Anticol",
+          "price": "129 zł",
+          "priceType": "Farmakoterapia nieinwazyjna.",
+          "ctaLabel": "Kup e-konsultację",
+          "benefits": [
+            "Konsultacja lekarska",
+            "Indywidualne podejście",
+            "Prywatność",
+            "Pełna dyskrecja",
+            "Wysoka skuteczność"
+          ]
+        },
+        {
+          "title": "E-recepta Naltrekson",
+          "price": "129 zł",
+          "priceType": "Farmakoterapia nieinwazyjna.",
+          "ctaLabel": "Kup e-konsultację",
+          "benefits": [
+            "Konsultacja lekarska",
+            "Indywidualne podejście",
+            "Prywatność",
+            "Pełna dyskrecja",
+            "Wysoka skuteczność"
+          ]
+        },
+        {
+          "title": "E-recepta Akamprozat (Campral)",
+          "price": "129 zł",
+          "priceType": "Farmakoterapia nieinwazyjna.",
+          "ctaLabel": "Kup e-konsultację",
+          "benefits": [
+            "Konsultacja lekarska",
+            "Indywidualne podejście",
+            "Prywatność",
+            "Pełna dyskrecja",
+            "Wysoka skuteczność"
+          ]
+        }
+      ]
+    }
+  ]
+}

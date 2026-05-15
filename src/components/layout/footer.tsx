@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/ui";
 import { siteConfig } from "@/lib/site-config";
@@ -14,9 +15,19 @@ export function Footer() {
           <div>
             <Link
               href="/"
-              className="text-xl font-bold text-white"
+              className="inline-flex items-center gap-3"
+              aria-label={siteConfig.name}
             >
-              {siteConfig.name}
+              <Image
+                src="/images/logo-icon-white.svg"
+                alt=""
+                width={32}
+                height={62}
+                className="h-12 w-auto"
+              />
+              <span className="text-xl font-extrabold tracking-tight text-white">
+                DETOKS<span className="text-primary-400">.KATOWICE</span>.PL
+              </span>
             </Link>
             <p className="mt-3 max-w-xs text-sm text-neutral-400">
               {siteConfig.description}

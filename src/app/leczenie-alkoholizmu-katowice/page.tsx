@@ -1,11 +1,12 @@
-import Link from 'next/link';
 import type { Metadata } from 'next';
 import { HeroSection, Section, Heading, Button, StatsSection } from '@/components/ui';
 import { JsonLd } from '@/components/seo/json-ld';
 import { siteConfig } from '@/lib/site-config';
 
 export const metadata: Metadata = {
-  title: 'Leczenie alkoholizmu Katowice – detoks, psychoterapia, wszywka | Detoks Katowice',
+  title: {
+    absolute: 'Leczenie alkoholizmu Katowice - Odwyk alkoholowy',
+  },
   description:
     'Kompleksowe leczenie alkoholizmu w Katowicach — detoks alkoholowy, psychoterapia, wszywka alkoholowa. Działamy 24/7. Pełna dyskrecja i opieka lekarska.',
   keywords: [
@@ -168,15 +169,15 @@ export default function LeczeniePage() {
                 Zadzwoń: {siteConfig.phoneFormatted}
               </Button>
             </a>
-            <Link href="/kontakt">
+            <a href="#e-rejestracja">
               <Button
                 variant="outline"
                 size="lg"
                 className="border-white text-white hover:bg-white/10"
               >
-                Napisz do nas
+                Rejestracja
               </Button>
-            </Link>
+            </a>
           </div>
         </div>
       </Section>

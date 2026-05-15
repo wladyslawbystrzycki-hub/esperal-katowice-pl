@@ -1,5 +1,6 @@
 export const siteConfig = {
   name: "Detoks Katowice",
+  defaultTitle: "Detoks alkoholowy Katowice - odtrucie alkoholowe",
   description:
     "Odtrucie alkoholowe Katowice — detoks alkoholowy, wszywka alkoholowa, psychoterapia. Bezpieczna i skuteczna detoksykacja 24/7.",
   url: "https://detoks.katowice.pl",
@@ -16,10 +17,10 @@ export const siteConfig = {
     "detoks 24/7",
   ],
   ogImage: "/og-image.jpg",
-  phone: "+48505373276",
-  phoneFormatted: "+48 505 373 276",
+  phone: "+48720729729",
+  phoneFormatted: "+48 720 729 729",
   links: {
-    phone: "tel:+48505373276",
+    phone: "tel:+48720729729",
     email: "mailto:kontakt@detoks.katowice.pl",
   },
 } as const;

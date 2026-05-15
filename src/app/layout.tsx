@@ -4,6 +4,7 @@ import "@/styles/globals.css";
 import { siteConfig } from "@/lib/site-config";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
+import { ERejestracjaModal } from "@/components/e-rejestracja-modal";
 
 const poppins = Poppins({
   subsets: ["latin", "latin-ext"],
@@ -15,7 +16,7 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: siteConfig.name,
+    default: siteConfig.defaultTitle,
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
@@ -26,7 +27,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: siteConfig.locale,
     url: siteConfig.url,
-    title: siteConfig.name,
+    title: siteConfig.defaultTitle,
     description: siteConfig.description,
     siteName: siteConfig.name,
     images: [
@@ -40,7 +41,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: siteConfig.name,
+    title: siteConfig.defaultTitle,
     description: siteConfig.description,
     images: [siteConfig.ogImage],
   },
@@ -77,6 +78,7 @@ export default function RootLayout({
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
+        <ERejestracjaModal />
       </body>
     </html>
   );

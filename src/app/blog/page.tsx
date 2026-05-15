@@ -5,7 +5,9 @@ import { Section, Button } from '@/components/ui';
 import { siteConfig } from '@/lib/site-config';
 
 export const metadata: Metadata = {
-  title: 'Blog – Detoks Katowice | Artykuły o leczeniu alkoholizmu',
+  title: {
+    absolute: 'Blog - Detoksykacja alkoholowa Katowice',
+  },
   description:
     'Blog o leczeniu alkoholizmu, detoksie alkoholowym i zespole abstynencyjnym. Dowiedz się więcej o metodach leczenia uzależnień w Katowicach.',
   alternates: {

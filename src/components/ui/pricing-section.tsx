@@ -1,331 +1,176 @@
 "use client";
 
-import { useRef, useState, useEffect, useCallback } from "react";
+import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
-import { Container } from "./container";
-import { Button } from "./button";
-
-interface PricingFeature {
-  text: string;
-  included: boolean;
-}
-
-interface PricingPlan {
-  title: string;
-  description?: string;
-  price: string;
-  priceLabel?: string;
-  features: PricingFeature[];
-  buttonLabel?: string;
-  buttonHref?: string;
-  highlighted?: boolean;
-}
+import type { PricingData, PricingTile } from "@/lib/pricing";
 
 interface PricingSectionProps {
-  title: string;
+  data: PricingData;
+  title?: string;
   subtitle?: string;
-  plans: PricingPlan[];
+  defaultCategory?: string;
   className?: string;
 }
 
-function CheckIcon() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      className="pricing-section__icon pricing-section__icon--check h-5 w-5 shrink-0 text-primary-500"
-      viewBox="0 0 20 20"
-      fill="currentColor"
-    >
-      <path
-        fillRule="evenodd"
-        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-        clipRule="evenodd"
-      />
-    </svg>
-  );
-}
-
-function ExcludedIcon() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      className="pricing-section__icon pricing-section__icon--excluded h-5 w-5 shrink-0 text-neutral-300"
-      viewBox="0 0 20 20"
-      fill="currentColor"
-    >
-      <path
-        fillRule="evenodd"
-        d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 5.11a6 6 0 018.367 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z"
-        clipRule="evenodd"
-      />
-    </svg>
-  );
-}
-
-function ArrowIcon({ direction }: { direction: "left" | "right" }) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      className="h-5 w-5"
-      viewBox="0 0 20 20"
-      fill="currentColor"
-    >
-      {direction === "left" ? (
-        <path
-          fillRule="evenodd"
-          d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-          clipRule="evenodd"
-        />
-      ) : (
-        <path
-          fillRule="evenodd"
-          d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-          clipRule="evenodd"
-        />
-      )}
-    </svg>
-  );
-}
-
 export function PricingSection({
-  title,
-  subtitle,
-  plans,
+  data,
+  title = "Cennik",
+  subtitle = "Wybierz interesującą Cię usługę",
+  defaultCategory,
   className,
 }: PricingSectionProps) {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [visibleIndices, setVisibleIndices] = useState<Set<number>>(new Set([0]));
+  const initial = Math.max(
+    0,
+    data.categories.findIndex((c) => c.id === defaultCategory)
+  );
+  const [active, setActive] = useState(initial);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
-
-  const updateScrollState = useCallback(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-
-    setCanScrollLeft(el.scrollLeft > 10);
-    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 10);
-  }, []);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const category = data.categories[active];
 
   useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
+    const track = trackRef.current;
+    if (!track) return;
+    track.scrollTo({ left: 0 });
 
-    updateScrollState();
-    el.addEventListener("scroll", updateScrollState, { passive: true });
-    window.addEventListener("resize", updateScrollState);
-
-    // IntersectionObserver to track which cards are visible
-    const cards = el.querySelectorAll<HTMLElement>(".pricing-section__card");
-    const observer = new IntersectionObserver(
-      (entries) => {
-        setVisibleIndices((prev) => {
-          const next = new Set(prev);
-          entries.forEach((entry) => {
-            const index = Number(entry.target.getAttribute("data-index"));
-            if (entry.isIntersecting) {
-              next.add(index);
-            } else {
-              next.delete(index);
-            }
-          });
-          return next;
-        });
-      },
-      { root: el, threshold: 0.5 }
-    );
-
-    cards.forEach((card) => observer.observe(card));
-
-    return () => {
-      el.removeEventListener("scroll", updateScrollState);
-      window.removeEventListener("resize", updateScrollState);
-      observer.disconnect();
+    const update = () => {
+      setCanScrollLeft(track.scrollLeft > 1);
+      setCanScrollRight(
+        track.scrollLeft + track.clientWidth < track.scrollWidth - 1
+      );
     };
-  }, [updateScrollState]);
+    update();
 
-  const scroll = (direction: "left" | "right") => {
-    const el = scrollRef.current;
-    if (!el) return;
+    track.addEventListener("scroll", update, { passive: true });
+    const ro = new ResizeObserver(update);
+    ro.observe(track);
+    return () => {
+      track.removeEventListener("scroll", update);
+      ro.disconnect();
+    };
+  }, [active]);
 
-    const cardWidth = el.querySelector<HTMLElement>(
-      ".pricing-section__card"
-    )?.offsetWidth;
-    if (!cardWidth) return;
-
-    const gap = 24; // gap-6 = 1.5rem = 24px
-    const scrollAmount = cardWidth + gap;
-
-    el.scrollBy({
-      left: direction === "left" ? -scrollAmount : scrollAmount,
-      behavior: "smooth",
-    });
-  };
-
-  const scrollToIndex = (index: number) => {
-    const el = scrollRef.current;
-    if (!el) return;
-
-    const card = el.querySelector<HTMLElement>(".pricing-section__card");
-    if (!card) return;
-
-    const gap = 24;
-    el.scrollTo({
-      left: index * (card.offsetWidth + gap),
-      behavior: "smooth",
-    });
+  const scroll = (dir: 1 | -1) => {
+    const track = trackRef.current;
+    if (!track) return;
+    const tile = track.querySelector<HTMLElement>("[data-tile]");
+    const step = (tile?.offsetWidth ?? 320) + 16;
+    track.scrollBy({ left: dir * step, behavior: "smooth" });
   };
 
   return (
     <section
-      className={cn("pricing-section bg-white py-12 md:py-16", className)}
+      id="cennik"
+      className={cn("pricing-section bg-neutral-50 py-16 md:py-20", className)}
     >
-      <Container>
-        {/* Header */}
-        <div className="pricing-section__header flex flex-col items-center text-center">
-          <h2 className="pricing-section__title text-2xl font-semibold text-neutral-950 lg:text-3xl">
-            {title}
-          </h2>
+      <div className="mx-auto max-w-[1600px] px-4">
+        <h2 className="pricing-section__title text-center text-3xl md:text-4xl font-bold text-neutral-950 mb-2">
+          {title}
+        </h2>
+        {subtitle && (
+          <p className="pricing-section__subtitle text-center text-neutral-500 mb-8">
+            {subtitle}
+          </p>
+        )}
 
-          <div className="pricing-section__separator mt-4 flex items-center gap-1">
-            <span className="inline-block h-1 w-40 rounded-full bg-primary-500" />
-            <span className="inline-block h-1 w-3 rounded-full bg-primary-500" />
-            <span className="inline-block h-1 w-1 rounded-full bg-primary-500" />
+        <div
+          role="tablist"
+          aria-label="Kategorie cennika"
+          className="pricing-section__tabs flex flex-wrap justify-center gap-2 mb-10"
+        >
+          {data.categories.map((c, i) => (
+            <button
+              key={c.id}
+              role="tab"
+              type="button"
+              aria-selected={i === active}
+              aria-controls={`cennik-panel-${c.id}`}
+              onClick={() => setActive(i)}
+              className={cn(
+                "pricing-section__tab rounded-full px-5 py-2 text-sm md:text-base font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500",
+                i === active
+                  ? "bg-primary-500 text-white"
+                  : "bg-white text-neutral-700 hover:bg-neutral-100 border border-neutral-200"
+              )}
+            >
+              {c.label}
+            </button>
+          ))}
+        </div>
+
+        <div className="pricing-section__carousel relative">
+          {canScrollLeft && (
+            <button
+              type="button"
+              onClick={() => scroll(-1)}
+              aria-label="Poprzedni"
+              className="pricing-section__arrow pricing-section__arrow--left hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 z-10 h-11 w-11 items-center justify-center rounded-full bg-white shadow-md text-primary-500 text-2xl leading-none hover:bg-primary-500 hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+            >
+              ‹
+            </button>
+          )}
+
+          <div
+            ref={trackRef}
+            id={`cennik-panel-${category.id}`}
+            role="tabpanel"
+            className="pricing-section__track flex gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-4 -mx-4 px-4 scrollbar-none"
+          >
+            {category.tiles.map((tile) => (
+              <PricingTileCard key={tile.title} tile={tile} />
+            ))}
           </div>
 
-          {subtitle && (
-            <p className="pricing-section__subtitle mt-4 max-w-2xl text-neutral-500">
-              {subtitle}
-            </p>
+          {canScrollRight && (
+            <button
+              type="button"
+              onClick={() => scroll(1)}
+              aria-label="Następny"
+              className="pricing-section__arrow pricing-section__arrow--right hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 z-10 h-11 w-11 items-center justify-center rounded-full bg-white shadow-md text-primary-500 text-2xl leading-none hover:bg-primary-500 hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+            >
+              ›
+            </button>
           )}
         </div>
-
-        {/* Carousel */}
-        <div className="pricing-section__carousel relative mt-10">
-          {/* Arrow buttons */}
-          <button
-            type="button"
-            onClick={() => scroll("left")}
-            className={cn(
-              "pricing-section__arrow pricing-section__arrow--left absolute -left-4 top-1/2 z-10 hidden -translate-y-1/2 rounded-full border border-neutral-200 bg-white p-2 shadow-md transition-opacity hover:bg-neutral-50 lg:block",
-              !canScrollLeft && "pointer-events-none opacity-0"
-            )}
-            aria-label="Przewiń w lewo"
-          >
-            <ArrowIcon direction="left" />
-          </button>
-
-          <button
-            type="button"
-            onClick={() => scroll("right")}
-            className={cn(
-              "pricing-section__arrow pricing-section__arrow--right absolute -right-4 top-1/2 z-10 hidden -translate-y-1/2 rounded-full border border-neutral-200 bg-white p-2 shadow-md transition-opacity hover:bg-neutral-50 lg:block",
-              !canScrollRight && "pointer-events-none opacity-0"
-            )}
-            aria-label="Przewiń w prawo"
-          >
-            <ArrowIcon direction="right" />
-          </button>
-
-          {/* Scrollable track */}
-          <div
-            ref={scrollRef}
-            className="pricing-section__track flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-smooth pb-4 scrollbar-none"
-          >
-            {plans.map((plan, i) => (
-              <div
-                key={plan.title}
-                data-index={i}
-                className={cn(
-                  "pricing-section__card w-[85vw] shrink-0 snap-center rounded-lg border transition-shadow hover:shadow-lg sm:w-[340px]",
-                  plan.highlighted
-                    ? "border-primary-500 ring-2 ring-primary-500/20"
-                    : "border-neutral-200"
-                )}
-              >
-                <div className="pricing-section__card-header p-6">
-                  <h3 className="pricing-section__plan-title text-xl font-medium text-neutral-950 lg:text-2xl">
-                    {plan.title}
-                  </h3>
-
-                  {plan.description && (
-                    <p className="pricing-section__plan-description mt-3 text-sm text-neutral-500">
-                      {plan.description}
-                    </p>
-                  )}
-
-                  <p className="pricing-section__price mt-4 text-2xl font-semibold text-neutral-950 sm:text-3xl">
-                    {plan.price}
-                  </p>
-
-                  {plan.priceLabel && (
-                    <p className="pricing-section__price-label mt-1 text-sm text-neutral-500">
-                      {plan.priceLabel}
-                    </p>
-                  )}
-
-                  {plan.buttonHref && (
-                    <a href={plan.buttonHref} className="mt-6 block">
-                      <Button
-                        variant={plan.highlighted ? "primary" : "outline"}
-                        className="pricing-section__button w-full"
-                      >
-                        {plan.buttonLabel ?? "Umów wizytę"}
-                      </Button>
-                    </a>
-                  )}
-                </div>
-
-                <hr className="border-neutral-200" />
-
-                <div className="pricing-section__card-features p-6">
-                  <h4 className="pricing-section__features-title text-lg font-medium text-neutral-950">
-                    W cenie:
-                  </h4>
-
-                  <ul className="pricing-section__features-list mt-4 space-y-3">
-                    {plan.features.map((feature) => (
-                      <li
-                        key={feature.text}
-                        className="pricing-section__feature flex items-center gap-3"
-                      >
-                        {feature.included ? <CheckIcon /> : <ExcludedIcon />}
-                        <span
-                          className={cn(
-                            "text-sm",
-                            feature.included
-                              ? "text-neutral-700"
-                              : "text-neutral-400"
-                          )}
-                        >
-                          {feature.text}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Dot indicators */}
-          <div className="pricing-section__dots mt-6 flex items-center justify-center gap-2.5">
-            {plans.map((plan, i) => (
-              <button
-                key={plan.title}
-                type="button"
-                onClick={() => scrollToIndex(i)}
-                className={cn(
-                  "pricing-section__dot h-3 w-3 rounded-full transition-all",
-                  visibleIndices.has(i)
-                    ? "bg-primary-500"
-                    : "bg-neutral-300 hover:bg-neutral-400"
-                )}
-                aria-label={`Przejdź do ${plan.title}`}
-              />
-            ))}
-          </div>
-        </div>
-      </Container>
+      </div>
     </section>
+  );
+}
+
+function PricingTileCard({ tile }: { tile: PricingTile }) {
+  return (
+    <article
+      data-tile
+      className="pricing-section__card flex-shrink-0 snap-start basis-[85%] sm:basis-[60%] md:basis-[calc(50%-0.5rem)] lg:basis-[calc(25%-0.75rem)] flex flex-col bg-white rounded-lg shadow-md p-6"
+    >
+      <h3 className="pricing-section__plan-title text-lg font-bold text-neutral-950 mb-3 min-h-[3.5rem]">
+        {tile.title}
+      </h3>
+      <p className="pricing-section__price text-3xl font-bold text-primary-500 mb-1">
+        {tile.price}
+      </p>
+      <p className="pricing-section__price-type text-sm text-neutral-500 mb-4">
+        {tile.priceType}
+      </p>
+      {tile.benefits && tile.benefits.length > 0 && (
+        <>
+          <hr className="border-neutral-100 my-2" />
+          <p className="font-semibold text-neutral-950 mb-2">Dlaczego warto?</p>
+          <ul className="pricing-section__benefits text-sm space-y-1 list-disc list-inside text-neutral-700 mb-4">
+            {tile.benefits.map((b) => (
+              <li key={b}>{b}</li>
+            ))}
+          </ul>
+        </>
+      )}
+      <Link
+        href="#e-rejestracja"
+        className="pricing-section__cta mt-auto inline-flex items-center justify-center rounded-full bg-primary-500 hover:bg-primary-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors"
+      >
+        {tile.ctaLabel}
+      </Link>
+    </article>
   );
 }
