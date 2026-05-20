@@ -1,43 +1,47 @@
 import type { MetadataRoute } from "next";
-import { siteConfig } from "@/lib/site-config";
+import { getCurrentSite } from "@/lib/sites";
+import { getBlogPostsForSite } from "@/lib/blog";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const site = await getCurrentSite();
+  const posts = getBlogPostsForSite(site.key);
+
   return [
     {
-      url: siteConfig.url,
+      url: site.url,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 1,
     },
     {
-      url: `${siteConfig.url}/leczenie-alkoholizmu-katowice`,
+      url: `${site.url}/leczenie-alkoholizmu-${site.citySlug}`,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.9,
     },
     {
-      url: `${siteConfig.url}/kontakt`,
+      url: `${site.url}/esperal-${site.citySlug}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+    {
+      url: `${site.url}/kontakt`,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.8,
     },
     {
-      url: `${siteConfig.url}/blog`,
+      url: `${site.url}/blog`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.8,
     },
-    {
-      url: `${siteConfig.url}/blog/objawy-odstawienia-alkoholu-jak-je-rozpoznac-i-zlagodzic-zespol-abstynencyjny`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
+    ...posts.map((post) => ({
+      url: `${site.url}/blog/${post.slug}`,
+      lastModified: new Date(post.date),
+      changeFrequency: "monthly" as const,
       priority: 0.7,
-    },
-    {
-      url: `${siteConfig.url}/blog/detoks-alkoholowy-klucz-do-bezpiecznego-odstawienia`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
+    })),
   ];
 }

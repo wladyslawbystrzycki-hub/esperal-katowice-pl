@@ -1,47 +1,52 @@
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import { HeroSection, Section, Heading, Button, StatsSection } from '@/components/ui';
 import { JsonLd } from '@/components/seo/json-ld';
-import { siteConfig } from '@/lib/site-config';
+import { getCurrentSite } from '@/lib/sites';
 
-export const metadata: Metadata = {
-  title: {
-    absolute: 'Leczenie alkoholizmu Katowice - Odwyk alkoholowy',
-  },
-  description:
-    'Kompleksowe leczenie alkoholizmu w Katowicach — detoks alkoholowy, psychoterapia, wszywka alkoholowa. Działamy 24/7. Pełna dyskrecja i opieka lekarska.',
-  keywords: [
-    'leczenie alkoholizmu katowice',
-    'leczenie uzależnień katowice',
-    'detoks alkoholowy',
-    'wszywka alkoholowa',
-    'psychoterapia uzależnień',
-  ],
-  alternates: {
-    canonical: `${siteConfig.url}/leczenie-alkoholizmu-katowice`,
-  },
-  openGraph: {
-    title: 'Leczenie alkoholizmu Katowice – detoks, psychoterapia, wszywka',
+const PAGE_SLUG = 'leczenie-alkoholizmu-katowice';
+const PAGE_SITE_KEY = 'katowice';
+
+export async function generateMetadata(): Promise<Metadata> {
+  const site = await getCurrentSite();
+  return {
+    title: { absolute: 'Leczenie alkoholizmu Katowice - Odwyk alkoholowy' },
     description:
-      'Kompleksowe leczenie alkoholizmu w Katowicach — detoks alkoholowy, psychoterapia, wszywka alkoholowa. Działamy 24/7.',
-    url: `${siteConfig.url}/leczenie-alkoholizmu-katowice`,
-  },
-};
+      'Kompleksowe leczenie alkoholizmu w Katowicach - detoks alkoholowy, psychoterapia, wszywka alkoholowa. Lekarz dojeżdża 24/7, e-rejestracja online całą dobę. Pełna dyskrecja.',
+    keywords: [
+      'leczenie alkoholizmu katowice',
+      'leczenie uzależnień katowice',
+      'detoks alkoholowy',
+      'wszywka alkoholowa',
+      'psychoterapia uzależnień',
+    ],
+    alternates: { canonical: `${site.url}/${PAGE_SLUG}` },
+    openGraph: {
+      title: 'Leczenie alkoholizmu Katowice – detoks, psychoterapia, wszywka',
+      description:
+        'Kompleksowe leczenie alkoholizmu w Katowicach - detoks alkoholowy, psychoterapia, wszywka alkoholowa. Lekarz dojeżdża 24/7.',
+      url: `${site.url}/${PAGE_SLUG}`,
+    },
+  };
+}
 
 const stats = [
-  { value: '500+', label: 'Zadowolonych pacjentów' },
-  { value: '24/7', label: 'Dostępność' },
+  { value: '5000+', label: 'Zadowolonych pacjentów' },
+  { value: '24/7', label: 'Dojazd lekarza' },
   { value: '10+', label: 'Lat doświadczenia' },
   { value: '100%', label: 'Dyskrecja' },
 ];
 
-export default function LeczeniePage() {
+export default async function LeczeniePage() {
+  const site = await getCurrentSite();
+  if (site.key !== PAGE_SITE_KEY) notFound();
   const serviceSchema = {
     '@context': 'https://schema.org',
     '@type': 'MedicalWebPage',
     name: 'Leczenie alkoholizmu Katowice',
     description:
-      'Kompleksowe leczenie alkoholizmu w Katowicach — detoks alkoholowy, psychoterapia, wszywka alkoholowa.',
-    url: `${siteConfig.url}/leczenie-alkoholizmu-katowice`,
+      'Kompleksowe leczenie alkoholizmu w Katowicach - detoks alkoholowy, psychoterapia, wszywka alkoholowa.',
+    url: `${site.url}/${PAGE_SLUG}`,
     mainEntity: {
       '@type': 'MedicalCondition',
       name: 'Alkoholizm',
@@ -55,11 +60,11 @@ export default function LeczeniePage() {
 
       {/* Hero */}
       <HeroSection
-        title="Leczenie alkoholizmu Katowice —"
+        title="Leczenie alkoholizmu Katowice -"
         highlight="kompleksowa pomoc"
-        description="Oferujemy pełne wsparcie w walce z uzależnieniem: detoks alkoholowy, psychoterapię i farmakoterapię. Działamy 24/7, gwarantujemy pełną dyskrecję."
+        description="Oferujemy pełne wsparcie w walce z uzależnieniem: detoks alkoholowy, psychoterapię i farmakoterapię. Lekarz dojeżdża 24/7, gwarantujemy pełną dyskrecję."
         buttons={[
-          { label: 'Zadzwoń', href: siteConfig.links.phone, variant: 'primary' },
+          { label: 'Zadzwoń', href: site.links.phone, variant: 'primary' },
           { label: 'Kontakt', href: '/kontakt', variant: 'outline' },
         ]}
         imageSrc="/images/smiling-indian-caring-doctor-supporting-holding-hand-olde-senior-female-patient-lying-bed-clinic-hospital-elderly-people-health-care-concept.jpg"
@@ -85,7 +90,8 @@ export default function LeczeniePage() {
             który wykorzystujemy do{' '}
             <strong className="text-neutral-950">leczenia uzależnień</strong> uważamy za
             kompleksowy, dlatego też mamy na koncie tak bardzo dużo sukcesów. Dla naszego
-            pacjenta jesteśmy dostępni 24 godziny na dobę. Oferujemy pełną dyskrecję przy{' '}
+            pacjenta lekarz dojeżdża 24 godziny na dobę - zgłoszenia przyjmujemy
+            telefonicznie w godzinach pracy gabinetu lub przez e-rejestrację online całą dobę. Oferujemy pełną dyskrecję przy{' '}
             <strong className="text-neutral-950">leczeniu alkoholizmu</strong>. Bez problemu
             dojedziemy do miejsca zamieszkania osoby chcącej skorzystać z naszej oferty.
           </p>
@@ -95,8 +101,8 @@ export default function LeczeniePage() {
             która ułatwi Ci{' '}
             <strong className="text-neutral-950">proces leczenia alkoholizmu.</strong>{' '}
             Gwarantujemy obsługę na najwyższym poziomie. Na pewno się na nas nie zawiedziesz.
-            Jesteśmy do twojej dyspozycji o każdej porze dnia i nocy. Nasza Poradnia
-            Katowice — zapraszamy do kontaktu.
+            Lekarz dojeżdża do pacjenta o każdej porze dnia i nocy. Nasza Poradnia
+            Katowice - zapraszamy do kontaktu.
           </p>
         </div>
 
@@ -156,17 +162,17 @@ export default function LeczeniePage() {
             Potrzebujesz pomocy?
           </h2>
           <p className="treatment-cta-section__description mx-auto mt-3 max-w-xl text-lg text-primary-100">
-            Skontaktuj się z nami — jesteśmy dostępni 24 godziny na dobę, 7 dni w tygodniu.
-            Gwarantujemy pełną dyskrecję.
+            Skontaktuj się z nami - infolinia działa w godzinach pracy gabinetu,
+            a e-rejestracja online jest dostępna 24/7. Gwarantujemy pełną dyskrecję.
           </p>
           <div className="treatment-cta-section__buttons mt-8 flex flex-wrap justify-center gap-4">
-            <a href={siteConfig.links.phone}>
+            <a href={site.links.phone}>
               <Button
                 variant="secondary"
                 size="lg"
                 className="bg-white text-primary-500 hover:bg-primary-50"
               >
-                Zadzwoń: {siteConfig.phoneFormatted}
+                Zadzwoń: {site.phoneFormatted}
               </Button>
             </a>
             <a href="#e-rejestracja">

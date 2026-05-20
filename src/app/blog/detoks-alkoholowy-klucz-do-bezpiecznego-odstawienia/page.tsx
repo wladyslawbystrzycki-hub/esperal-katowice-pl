@@ -1,47 +1,54 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import { Section, Button } from '@/components/ui';
 import { JsonLd } from '@/components/seo/json-ld';
-import { siteConfig } from '@/lib/site-config';
+import { getCurrentSite } from '@/lib/sites';
 
-export const metadata: Metadata = {
-  title: {
-    absolute: 'Detoks alkoholowy - klucz do bezpiecznego odstawienia | Detoks Katowice',
-  },
-  description:
-    'Detoks alkoholowy to pierwszy krok w leczeniu uzależnienia od alkoholu. Dowiedz się, na czym polega detoksykacja, jakie są objawy zespołu abstynencyjnego i dlaczego profesjonalne odtrucie jest tak ważne.',
-  keywords: [
-    'detoks alkoholowy',
-    'zespół abstynencyjny',
-    'odtrucie alkoholowe',
-    'leczenie alkoholizmu',
-    'delirium tremens',
-    'detoksykacja katowice',
-  ],
-  alternates: {
-    canonical: `${siteConfig.url}/blog/detoks-alkoholowy-klucz-do-bezpiecznego-odstawienia`,
-  },
-  openGraph: {
-    title: 'Detoks alkoholowy – klucz do bezpiecznego odstawienia',
+const POST_SLUG = 'detoks-alkoholowy-klucz-do-bezpiecznego-odstawienia';
+const POST_SITE_KEY = 'katowice';
+
+export async function generateMetadata(): Promise<Metadata> {
+  const site = await getCurrentSite();
+  return {
+    title: {
+      absolute: `Detoks alkoholowy - klucz do bezpiecznego odstawienia | ${site.name}`,
+    },
     description:
-      'Detoks alkoholowy to pierwszy krok w leczeniu uzależnienia od alkoholu. Dowiedz się, na czym polega detoksykacja i dlaczego profesjonalne odtrucie jest tak ważne.',
-    url: `${siteConfig.url}/blog/detoks-alkoholowy-klucz-do-bezpiecznego-odstawienia`,
-    type: 'article',
-    publishedTime: '2024-04-15T13:05:27+00:00',
-    modifiedTime: '2024-04-15T13:09:35+00:00',
-    images: [
-      {
-        url: `${siteConfig.url}/images/detoks-alkoholowy2.png`,
-        width: 1024,
-        height: 577,
-        alt: 'Detoks alkoholowy - zdjęcie ilustracyjne',
-      },
+      'Detoks alkoholowy to pierwszy krok w leczeniu uzależnienia od alkoholu. Dowiedz się, na czym polega detoksykacja, jakie są objawy zespołu abstynencyjnego i dlaczego profesjonalne odtrucie jest tak ważne.',
+    keywords: [
+      'detoks alkoholowy',
+      'zespół abstynencyjny',
+      'odtrucie alkoholowe',
+      'leczenie alkoholizmu',
+      'delirium tremens',
+      `detoksykacja ${site.citySlug}`,
     ],
-  },
-};
+    alternates: { canonical: `${site.url}/blog/${POST_SLUG}` },
+    openGraph: {
+      title: 'Detoks alkoholowy – klucz do bezpiecznego odstawienia',
+      description:
+        'Detoks alkoholowy to pierwszy krok w leczeniu uzależnienia od alkoholu. Dowiedz się, na czym polega detoksykacja i dlaczego profesjonalne odtrucie jest tak ważne.',
+      url: `${site.url}/blog/${POST_SLUG}`,
+      type: 'article',
+      publishedTime: '2024-04-15T13:05:27+00:00',
+      modifiedTime: '2024-04-15T13:09:35+00:00',
+      images: [
+        {
+          url: `${site.url}/images/detoks-alkoholowy2.png`,
+          width: 1024,
+          height: 577,
+          alt: 'Detoks alkoholowy - zdjęcie ilustracyjne',
+        },
+      ],
+    },
+  };
+}
 
-export default function BlogPostPage() {
+export default async function BlogPostPage() {
+  const site = await getCurrentSite();
+  if (site.key !== POST_SITE_KEY) notFound();
   const articleSchema = {
     '@context': 'https://schema.org',
     '@type': 'Article',
@@ -50,18 +57,18 @@ export default function BlogPostPage() {
     dateModified: '2024-04-15T13:09:35+00:00',
     author: {
       '@type': 'Organization',
-      name: siteConfig.author,
+      name: site.author,
     },
     publisher: {
       '@type': 'Organization',
-      name: siteConfig.name,
-      url: siteConfig.url,
+      name: site.name,
+      url: site.url,
     },
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `${siteConfig.url}/blog/detoks-alkoholowy-klucz-do-bezpiecznego-odstawienia`,
+      '@id': `${site.url}/blog/${POST_SLUG}`,
     },
-    image: `${siteConfig.url}/images/detoks-alkoholowy2.png`,
+    image: `${site.url}/images/detoks-alkoholowy2.png`,
     description:
       'Detoks alkoholowy to pierwszy krok w leczeniu uzależnienia od alkoholu. Dowiedz się, na czym polega detoksykacja, jakie są objawy zespołu abstynencyjnego i dlaczego profesjonalne odtrucie jest tak ważne.',
   };
@@ -109,7 +116,7 @@ export default function BlogPostPage() {
         <div className="blog-post__meta mb-8 flex flex-wrap items-center gap-4 text-sm text-neutral-500">
           <time dateTime="2024-04-15T13:05:27+00:00">15 kwietnia, 2024</time>
           <span className="blog-post__meta-separator h-1 w-1 rounded-full bg-neutral-300" />
-          <span>Autor: {siteConfig.author}</span>
+          <span>Autor: {site.author}</span>
         </div>
 
         {/* Article content */}
@@ -117,7 +124,7 @@ export default function BlogPostPage() {
           <p>
             Zespół abstynencyjny po odstawieniu alkoholu stanowi poważne wyzwanie dla wielu
             osób uzależnionych, niezależnie od ich statusu społecznego, wieku czy płci. To
-            zjawisko nie ogranicza się jedynie do kwestii silnej woli lub samokontroli — jest
+            zjawisko nie ogranicza się jedynie do kwestii silnej woli lub samokontroli - jest
             to kompleksowy stan zaburzeń zdrowotnych, który może manifestować się
             w wielorakich, często niebezpiecznych objawach fizycznych i psychicznych. Z tego
             powodu, profesjonalne podejście i wsparcie medyczne obejmujące, taki zabieg jak
@@ -225,7 +232,7 @@ export default function BlogPostPage() {
             uzależnionej. Ten krytyczny proces detoksykacji jest kluczowy nie tylko ze względu
             na eliminację alkoholu, ale także z powodu zapobiegania poważnym komplikacjom
             zdrowotnym, które mogą wynikać z nagłego zaprzestania spożywania alkoholu.
-            Komplikacje te, takie jak delirium tremens — charakteryzujące się ciężkimi
+            Komplikacje te, takie jak delirium tremens - charakteryzujące się ciężkimi
             zaburzeniami psychicznymi i neurologicznymi, czy drgawki, mogą stanowić
             bezpośrednie zagrożenie dla życia.
           </p>
@@ -290,7 +297,7 @@ export default function BlogPostPage() {
           <p>
             Proces detoksykacji jest prowadzony pod ścisłym nadzorem medycznym
             w specjalistycznych ośrodkach leczenia uzależnień. Nadzór ten jest kluczowy, gdyż
-            objawy odstawienia alkoholu mogą być nieprzewidywalne i zróżnicowane — od
+            objawy odstawienia alkoholu mogą być nieprzewidywalne i zróżnicowane - od
             łagodnych, takich jak bezsenność i niepokój, po poważne i zagrażające życiu
             stany, jak delirium tremens czy drgawki, które wymagają natychmiastowej
             profesjonalnej interwencji medycznej. Skuteczne zarządzanie objawami
@@ -318,8 +325,8 @@ export default function BlogPostPage() {
             Detoksykacja alkoholowa, choć często postrzegana głównie jako proces eliminacji
             alkoholu z organizmu, jest w rzeczywistości znacznie bardziej kompleksowa
             i stanowi kluczowy etap na drodze do odzyskania pełnej kontroli nad własnym
-            życiem. Jest to okres, w którym Pacjent, wspierany przez zespół specjalistów — od
-            lekarzy, przez psychologów, po terapeutów uzależnień — rozpoczyna intensywny
+            życiem. Jest to okres, w którym Pacjent, wspierany przez zespół specjalistów - od
+            lekarzy, przez psychologów, po terapeutów uzależnień - rozpoczyna intensywny
             proces nauki o sobie samym i swoich zachowaniach.
           </p>
 
@@ -438,13 +445,14 @@ export default function BlogPostPage() {
             Potrzebujesz pomocy w walce z uzależnieniem?
           </h3>
           <p className="mt-2 text-neutral-600">
-            Skontaktuj się z nami — oferujemy profesjonalny detoks alkoholowy w Katowicach
-            pod nadzorem lekarza. Działamy 24/7, gwarantujemy pełną dyskrecję.
+            Skontaktuj się z nami - oferujemy profesjonalny detoks alkoholowy w Katowicach
+            pod nadzorem lekarza. Lekarz dojeżdża 24/7, e-rejestracja online działa całą dobę.
+            Gwarantujemy pełną dyskrecję.
           </p>
           <div className="mt-4 flex flex-wrap gap-3">
-            <a href={siteConfig.links.phone}>
+            <a href={site.links.phone}>
               <Button variant="primary" size="lg">
-                Zadzwoń: {siteConfig.phoneFormatted}
+                Zadzwoń: {site.phoneFormatted}
               </Button>
             </a>
             <a href="#e-rejestracja">

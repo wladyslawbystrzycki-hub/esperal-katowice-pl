@@ -1,48 +1,56 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import { Section, Heading, Button } from '@/components/ui';
 import { JsonLd } from '@/components/seo/json-ld';
-import { siteConfig } from '@/lib/site-config';
+import { getCurrentSite } from '@/lib/sites';
 
-export const metadata: Metadata = {
-  title: {
-    absolute: 'Objawy odstawienia alkoholu - jak rozpoznać zespół abstynencyjny | Detoks Katowice',
-  },
-  description:
-    'Objawy odstawienia alkoholu mogą być niebezpieczne. Dowiedz się, jak rozpoznać zespół abstynencyjny, jak przebiega detoks alkoholowy i jak złagodzić objawy odstawienne.',
-  keywords: [
-    'objawy odstawienia alkoholu',
-    'zespół abstynencyjny',
-    'detoks alkoholowy',
-    'delirium tremens',
-    'odtrucie alkoholowe katowice',
-    'leczenie alkoholizmu',
-  ],
-  alternates: {
-    canonical: `${siteConfig.url}/blog/objawy-odstawienia-alkoholu-jak-je-rozpoznac-i-zlagodzic-zespol-abstynencyjny`,
-  },
-  openGraph: {
-    title:
-      'Objawy odstawienia alkoholu – jak je rozpoznać i złagodzić zespół abstynencyjny?',
+const POST_SLUG =
+  'objawy-odstawienia-alkoholu-jak-je-rozpoznac-i-zlagodzic-zespol-abstynencyjny';
+const POST_SITE_KEY = 'katowice';
+
+export async function generateMetadata(): Promise<Metadata> {
+  const site = await getCurrentSite();
+  return {
+    title: {
+      absolute: `Objawy odstawienia alkoholu - jak rozpoznać zespół abstynencyjny | ${site.name}`,
+    },
     description:
-      'Objawy odstawienia alkoholu mogą być niebezpieczne. Dowiedz się, jak rozpoznać zespół abstynencyjny i jak przebiega detoks alkoholowy.',
-    url: `${siteConfig.url}/blog/objawy-odstawienia-alkoholu-jak-je-rozpoznac-i-zlagodzic-zespol-abstynencyjny`,
-    type: 'article',
-    publishedTime: '2024-07-25T08:46:21+00:00',
-    modifiedTime: '2024-07-25T08:46:40+00:00',
-    images: [
-      {
-        url: `${siteConfig.url}/images/objawy-odstawienia-alkoholu.png`,
-        width: 1024,
-        height: 535,
-        alt: 'Objawy odstawienia alkoholu - zdjęcie ilustracyjne',
-      },
+      'Objawy odstawienia alkoholu mogą być niebezpieczne. Dowiedz się, jak rozpoznać zespół abstynencyjny, jak przebiega detoks alkoholowy i jak złagodzić objawy odstawienne.',
+    keywords: [
+      'objawy odstawienia alkoholu',
+      'zespół abstynencyjny',
+      'detoks alkoholowy',
+      'delirium tremens',
+      `odtrucie alkoholowe ${site.citySlug}`,
+      'leczenie alkoholizmu',
     ],
-  },
-};
+    alternates: { canonical: `${site.url}/blog/${POST_SLUG}` },
+    openGraph: {
+      title:
+        'Objawy odstawienia alkoholu – jak je rozpoznać i złagodzić zespół abstynencyjny?',
+      description:
+        'Objawy odstawienia alkoholu mogą być niebezpieczne. Dowiedz się, jak rozpoznać zespół abstynencyjny i jak przebiega detoks alkoholowy.',
+      url: `${site.url}/blog/${POST_SLUG}`,
+      type: 'article',
+      publishedTime: '2024-07-25T08:46:21+00:00',
+      modifiedTime: '2024-07-25T08:46:40+00:00',
+      images: [
+        {
+          url: `${site.url}/images/objawy-odstawienia-alkoholu.png`,
+          width: 1024,
+          height: 535,
+          alt: 'Objawy odstawienia alkoholu - zdjęcie ilustracyjne',
+        },
+      ],
+    },
+  };
+}
 
-export default function BlogPostPage() {
+export default async function BlogPostPage() {
+  const site = await getCurrentSite();
+  if (site.key !== POST_SITE_KEY) notFound();
   const articleSchema = {
     '@context': 'https://schema.org',
     '@type': 'Article',
@@ -52,18 +60,18 @@ export default function BlogPostPage() {
     dateModified: '2024-07-25T08:46:40+00:00',
     author: {
       '@type': 'Organization',
-      name: siteConfig.author,
+      name: site.author,
     },
     publisher: {
       '@type': 'Organization',
-      name: siteConfig.name,
-      url: siteConfig.url,
+      name: site.name,
+      url: site.url,
     },
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `${siteConfig.url}/blog/objawy-odstawienia-alkoholu-jak-je-rozpoznac-i-zlagodzic-zespol-abstynencyjny`,
+      '@id': `${site.url}/blog/${POST_SLUG}`,
     },
-    image: `${siteConfig.url}/images/objawy-odstawienia-alkoholu.png`,
+    image: `${site.url}/images/objawy-odstawienia-alkoholu.png`,
     description:
       'Objawy odstawienia alkoholu mogą być niebezpieczne. Dowiedz się, jak rozpoznać zespół abstynencyjny, jak przebiega detoks alkoholowy i jak złagodzić objawy odstawienne.',
   };
@@ -110,7 +118,7 @@ export default function BlogPostPage() {
         <div className="blog-post__meta mb-8 flex flex-wrap items-center gap-4 text-sm text-neutral-500">
           <time dateTime="2024-07-25T08:46:21+00:00">25 lipca, 2024</time>
           <span className="blog-post__meta-separator h-1 w-1 rounded-full bg-neutral-300" />
-          <span>Autor: {siteConfig.author}</span>
+          <span>Autor: {site.author}</span>
         </div>
 
         {/* Article content */}
@@ -286,13 +294,14 @@ export default function BlogPostPage() {
             Potrzebujesz pomocy w walce z uzależnieniem?
           </h3>
           <p className="mt-2 text-neutral-600">
-            Skontaktuj się z nami — oferujemy profesjonalny detoks alkoholowy w Katowicach
-            pod nadzorem lekarza. Działamy 24/7, gwarantujemy pełną dyskrecję.
+            Skontaktuj się z nami - oferujemy profesjonalny detoks alkoholowy w Katowicach
+            pod nadzorem lekarza. Lekarz dojeżdża 24/7, e-rejestracja online działa całą dobę.
+            Gwarantujemy pełną dyskrecję.
           </p>
           <div className="mt-4 flex flex-wrap gap-3">
-            <a href={siteConfig.links.phone}>
+            <a href={site.links.phone}>
               <Button variant="primary" size="lg">
-                Zadzwoń: {siteConfig.phoneFormatted}
+                Zadzwoń: {site.phoneFormatted}
               </Button>
             </a>
             <a href="#e-rejestracja">

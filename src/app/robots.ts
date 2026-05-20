@@ -1,7 +1,8 @@
 import type { MetadataRoute } from "next";
-import { siteConfig } from "@/lib/site-config";
+import { getCurrentSite } from "@/lib/sites";
 
-export default function robots(): MetadataRoute.Robots {
+export default async function robots(): Promise<MetadataRoute.Robots> {
+  const site = await getCurrentSite();
   return {
     rules: {
       userAgent: "*",
@@ -12,10 +13,12 @@ export default function robots(): MetadataRoute.Robots {
         "/admin/",
         "/private/",
         "/temp/",
+        "/404-cross-city",
         "/*?service=*",
         "/*?_rsc=*",
       ],
     },
-    sitemap: `${siteConfig.url}/sitemap.xml`,
+    sitemap: `${site.url}/sitemap.xml`,
+    host: site.url,
   };
 }
