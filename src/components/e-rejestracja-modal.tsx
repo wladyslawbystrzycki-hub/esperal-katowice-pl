@@ -16,17 +16,10 @@ declare global {
   }
 }
 
-const widgetConfig = {
-  containerId: CONTAINER_ID,
-  theme: "light",
-  primaryColor: "#d0422c",
-  baseUrl: BASE_URL,
-  predefinedCategoryId: "cmf17dr4o000eooi83sdz7ja5",
-  predefinedCityName: "Katowice",
-  redirectBrandSlug: "",
-  disableRedirects: false,
-  enableAutoSearch: false,
-};
+interface ERejestracjaModalProps {
+  predefinedCityName: string;
+  predefinedCategoryId: string;
+}
 
 const WIDGET_THEME_CSS = `
 #${CONTAINER_ID},
@@ -48,7 +41,10 @@ const WIDGET_THEME_CSS = `
 }
 `;
 
-export function ERejestracjaModal() {
+export function ERejestracjaModal({
+  predefinedCityName,
+  predefinedCategoryId,
+}: ERejestracjaModalProps) {
   const [open, setOpen] = useState(false);
   const [scriptLoaded, setScriptLoaded] = useState(false);
   const initializedRef = useRef(false);
@@ -57,9 +53,19 @@ export function ERejestracjaModal() {
     if (initializedRef.current) return;
     if (!window.NGCalendar?.createWidget) return;
     if (!document.getElementById(CONTAINER_ID)) return;
-    window.NGCalendar.createWidget(widgetConfig);
+    window.NGCalendar.createWidget({
+      containerId: CONTAINER_ID,
+      theme: "light",
+      primaryColor: "#d0422c",
+      baseUrl: BASE_URL,
+      predefinedCategoryId,
+      predefinedCityName,
+      redirectBrandSlug: "",
+      disableRedirects: false,
+      enableAutoSearch: false,
+    });
     initializedRef.current = true;
-  }, []);
+  }, [predefinedCityName, predefinedCategoryId]);
 
   useEffect(() => {
     if (open && scriptLoaded) init();
@@ -151,7 +157,7 @@ export function ERejestracjaModal() {
                 E-rejestracja
               </h2>
               <p className="mt-1 text-sm text-neutral-500">
-                Umów wizytę online — wybierz usługę i dogodny termin.
+                Umów wizytę online - wybierz usługę i dogodny termin.
               </p>
 
               <div

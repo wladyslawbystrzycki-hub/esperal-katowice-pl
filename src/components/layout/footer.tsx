@@ -1,10 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/ui";
-import { siteConfig } from "@/lib/site-config";
-import { navLinks } from "@/lib/navigation";
+import type { SiteConfig } from "@/lib/sites/types";
+import type { NavLink } from "@/lib/navigation";
 
-export function Footer() {
+interface FooterProps {
+  site: SiteConfig;
+  navLinks: readonly NavLink[];
+}
+
+export function Footer({ site, navLinks }: FooterProps) {
   const currentYear = new Date().getFullYear();
 
   return (
@@ -16,7 +21,7 @@ export function Footer() {
             <Link
               href="/"
               className="inline-flex items-center gap-3"
-              aria-label={siteConfig.name}
+              aria-label={site.name}
             >
               <Image
                 src="/images/logo-icon-white.svg"
@@ -26,11 +31,13 @@ export function Footer() {
                 className="h-12 w-auto"
               />
               <span className="text-xl font-extrabold tracking-tight text-white">
-                DETOKS<span className="text-primary-400">.KATOWICE</span>.PL
+                {site.brand.prefix}
+                <span className="text-primary-400">{site.brand.cityAccent}</span>
+                {site.brand.suffix}
               </span>
             </Link>
             <p className="mt-3 max-w-xs text-sm text-neutral-400">
-              {siteConfig.description}
+              {site.description}
             </p>
           </div>
 
@@ -58,20 +65,24 @@ export function Footer() {
               Kontakt
             </h4>
             <div className="flex flex-col gap-2 text-sm text-neutral-400">
-              <a href={siteConfig.links.phone} className="hover:text-white">
-                Telefon: {siteConfig.phoneFormatted}
+              <a href={site.links.phone} className="hover:text-white">
+                Telefon: {site.phoneFormatted}
               </a>
-              <a href={siteConfig.links.email} className="hover:text-white">
-                kontakt@detoks.katowice.pl
+              <a href={site.links.email} className="hover:text-white">
+                {site.email}
               </a>
-              <p>Katowice i okolice</p>
-              <p>Dostępność: 24/7</p>
+              <address className="not-italic">
+                {site.streetAddress}
+                <br />
+                {site.postalCode} {site.cityName}
+              </address>
+              <p>E-rejestracja online: 24/7</p>
             </div>
           </div>
         </div>
 
         <div className="mt-10 border-t border-neutral-800 pt-6 text-center text-sm text-neutral-500">
-          &copy; {currentYear} {siteConfig.name}. Wszelkie prawa zastrzeżone.
+          &copy; {currentYear} {site.name}. Wszelkie prawa zastrzeżone.
         </div>
       </Container>
     </footer>

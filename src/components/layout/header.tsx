@@ -4,11 +4,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { Container } from "@/components/ui";
-import { siteConfig } from "@/lib/site-config";
-import { navLinks } from "@/lib/navigation";
+import type { SiteConfig } from "@/lib/sites/types";
+import type { NavLink } from "@/lib/navigation";
 import { cn } from "@/lib/utils";
 
-export function Header() {
+interface HeaderProps {
+  site: SiteConfig;
+  navLinks: readonly NavLink[];
+}
+
+export function Header({ site, navLinks }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
@@ -17,7 +22,7 @@ export function Header() {
         <Link
           href="/"
           className="flex items-center gap-2 md:gap-3"
-          aria-label={siteConfig.name}
+          aria-label={site.name}
         >
           <Image
             src="/images/logo-icon.svg"
@@ -28,7 +33,9 @@ export function Header() {
             className="h-9 w-auto md:h-12"
           />
           <span className="text-base font-extrabold tracking-tight text-neutral-800 md:text-xl">
-            DETOKS<span className="text-primary-500">.KATOWICE</span>.PL
+            {site.brand.prefix}
+            <span className="text-primary-500">{site.brand.cityAccent}</span>
+            {site.brand.suffix}
           </span>
         </Link>
 
@@ -44,10 +51,10 @@ export function Header() {
             </Link>
           ))}
           <a
-            href={siteConfig.links.phone}
+            href={site.links.phone}
             className="rounded-lg bg-primary-500 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-primary-600"
           >
-            {siteConfig.phoneFormatted}
+            {site.phoneFormatted}
           </a>
         </nav>
 
