@@ -1,0 +1,61 @@
+import type { SiteConfig } from "./types";
+
+export const katowice: SiteConfig = {
+  key: "katowice",
+  name: "Detoks Katowice",
+  defaultTitle: "Detoks alkoholowy Katowice - odtrucie alkoholowe",
+  description:
+    "Odtrucie alkoholowe Katowice - detoks alkoholowy, wszywka alkoholowa, psychoterapia. Lekarz dojeżdża 24/7, e-rejestracja online całą dobę.",
+  url: "https://detoks.katowice.pl",
+  host: "detoks.katowice.pl",
+  locale: "pl_PL",
+  language: "pl",
+  author: "PraMed Katowice",
+  keywords: [
+    "detoks alkoholowy katowice",
+    "odtrucie alkoholowe katowice",
+    "detoksykacja alkoholowa",
+    "wszywka alkoholowa katowice",
+    "leczenie alkoholizmu katowice",
+    "kroplówka detoksykacyjna",
+    "detoks 24/7",
+  ],
+  ogImage: "/og-image.jpg",
+  phone: "+48720729729",
+  phoneFormatted: "+48 720 729 729",
+  email: "kontakt@detoks.katowice.pl",
+  links: {
+    phone: "tel:+48720729729",
+    email: "mailto:kontakt@detoks.katowice.pl",
+  },
+  cityName: "Katowice",
+  cityNameLocative: "Katowicach",
+  citySlug: "katowice",
+  region: "śląskie",
+  streetAddress: "Sławka 5",
+  postalCode: "40-833",
+  geo: {
+    latitude: 50.2649,
+    longitude: 19.0238,
+  },
+  areaServed: [
+    "Katowice",
+    "Sosnowiec",
+    "Chorzów",
+    "Bytom",
+    "Gliwice",
+    "Tychy",
+    "Mysłowice",
+    "Częstochowa",
+    "Bielsko-Biała",
+  ],
+  brand: {
+    prefix: "DETOKS",
+    cityAccent: ".KATOWICE",
+    suffix: ".PL",
+  },
+  bookingWidget: {
+    predefinedCityName: "Katowice",
+    predefinedCategoryId: "cmf17dr4o000eooi83sdz7ja5",
+  },
+};

@@ -1,0 +1,61 @@
+import type { SiteConfig } from "./types";
+
+export const bydgoszcz: SiteConfig = {
+  key: "bydgoszcz",
+  name: "Detoks Bydgoszcz",
+  defaultTitle: "Detoks alkoholowy Bydgoszcz - odtrucie alkoholowe, dojazd 24/7",
+  description:
+    "Odtrucie alkoholowe Bydgoszcz - detoks alkoholowy w gabinecie i u pacjenta. Dyskretny dojazd lekarza 24/7, kroplówki detoksykacyjne, opieka po zabiegu.",
+  url: "https://detoks.bydgoszcz.pl",
+  host: "detoks.bydgoszcz.pl",
+  locale: "pl_PL",
+  language: "pl",
+  author: "PraMed Bydgoszcz",
+  keywords: [
+    "detoks alkoholowy bydgoszcz",
+    "odtrucie alkoholowe bydgoszcz",
+    "kroplówka detoksykacyjna bydgoszcz",
+    "wszywka alkoholowa bydgoszcz",
+    "leczenie alkoholizmu bydgoszcz",
+    "detoks alkoholowy w domu",
+    "odtrucie poalkoholowe kujawsko-pomorskie",
+  ],
+  ogImage: "/og-image.jpg",
+  phone: "+48720729729",
+  phoneFormatted: "+48 720 729 729",
+  email: "kontakt@detoks.bydgoszcz.pl",
+  links: {
+    phone: "tel:+48720729729",
+    email: "mailto:kontakt@detoks.bydgoszcz.pl",
+  },
+  cityName: "Bydgoszcz",
+  cityNameLocative: "Bydgoszczy",
+  citySlug: "bydgoszcz",
+  region: "kujawsko-pomorskie",
+  streetAddress: "Dworcowa 31",
+  postalCode: "85-009",
+  geo: {
+    latitude: 53.1235,
+    longitude: 18.0084,
+  },
+  areaServed: [
+    "Bydgoszcz",
+    "Toruń",
+    "Inowrocław",
+    "Solec Kujawski",
+    "Koronowo",
+    "Nakło nad Notecią",
+    "Świecie",
+    "Chełmno",
+    "Brodnica",
+  ],
+  brand: {
+    prefix: "DETOKS",
+    cityAccent: ".BYDGOSZCZ",
+    suffix: ".PL",
+  },
+  bookingWidget: {
+    predefinedCityName: "Bydgoszcz",
+    predefinedCategoryId: "cmf17dr4o000eooi83sdz7ja5",
+  },
+};

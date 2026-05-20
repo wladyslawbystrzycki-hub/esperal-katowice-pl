@@ -1,0 +1,61 @@
+import type { SiteConfig } from "./types";
+
+export const szczecin: SiteConfig = {
+  key: "szczecin",
+  name: "Detoks Szczecin",
+  defaultTitle: "Detoks alkoholowy Szczecin - odtrucie alkoholowe, dojazd 24/7",
+  description:
+    "Odtrucie alkoholowe Szczecin - detoks alkoholowy w domu pacjenta i w gabinecie. Dyskretny dojazd lekarza 24/7, kroplówki detoksykacyjne, opieka po zabiegu.",
+  url: "https://detoks.szczecin.pl",
+  host: "detoks.szczecin.pl",
+  locale: "pl_PL",
+  language: "pl",
+  author: "PraMed Szczecin",
+  keywords: [
+    "detoks alkoholowy szczecin",
+    "odtrucie alkoholowe szczecin",
+    "kroplówka detoksykacyjna szczecin",
+    "wszywka alkoholowa szczecin",
+    "leczenie alkoholizmu szczecin",
+    "detoks alkoholowy w domu",
+    "odtrucie poalkoholowe pomorze zachodnie",
+  ],
+  ogImage: "/og-image.jpg",
+  phone: "+48720729729",
+  phoneFormatted: "+48 720 729 729",
+  email: "kontakt@detoks.szczecin.pl",
+  links: {
+    phone: "tel:+48720729729",
+    email: "mailto:kontakt@detoks.szczecin.pl",
+  },
+  cityName: "Szczecin",
+  cityNameLocative: "Szczecinie",
+  citySlug: "szczecin",
+  region: "zachodniopomorskie",
+  streetAddress: "Gdańska 3/2",
+  postalCode: "70-660",
+  geo: {
+    latitude: 53.4285,
+    longitude: 14.5528,
+  },
+  areaServed: [
+    "Szczecin",
+    "Police",
+    "Stargard",
+    "Goleniów",
+    "Świnoujście",
+    "Gryfino",
+    "Dobra Szczecińska",
+    "Kołbaskowo",
+    "Pyrzyce",
+  ],
+  brand: {
+    prefix: "DETOKS",
+    cityAccent: ".SZCZECIN",
+    suffix: ".PL",
+  },
+  bookingWidget: {
+    predefinedCityName: "Szczecin",
+    predefinedCategoryId: "cmf17dr4o000eooi83sdz7ja5",
+  },
+};
