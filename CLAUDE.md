@@ -1,75 +1,108 @@
-# esperal-katowice-pl
+# detoks-network (multi-tenant)
 
-## Kontekst: sieć stron miastowych
+## Kontekst: sieć stron miastowych — JEDNA aplikacja
 
-Ten projekt jest jedną ze stron w **sieci serwisów lokalnych** poświęconych leczeniu uzależnień / wszywce Esperal w różnych polskich miastach. Każde miasto = osobne repozytorium o zbliżonej strukturze, treściach i designie, dostosowane SEO i kontaktowo do danej lokalizacji. Docelowo wszystkie repozytoria w sieci mają być równoznaczne pod względem struktury i jakości — różnić się mają wyłącznie warstwą lokalizacyjną (treści, NAP, schema).
+Ten projekt obsługuje **wiele domen miejskich** z jednego codebase'u Next.js (multi-tenant). Resolwer hosta w `src/proxy.ts` ustawia `x-site-key` header, a server components czytają go przez `getCurrentSite()` z `@/lib/sites`. Treści, NAP, schema i sitemap są per-domena — kod współdzielony.
 
-**Projekt siostrzany (obecnie najdalej rozwinięty):** [/home/wadysaw/Programming/detoks-wroclaw](/home/wadysaw/Programming/detoks-wroclaw)
+**Obecne tenanty:**
+- `detoks.katowice.pl` — `src/lib/sites/katowice.ts`
+- `detoks.szczecin.pl` — `src/lib/sites/szczecin.ts`
 
-Przy wprowadzaniu zmian strukturalnych, dodawaniu nowych sekcji, komponentów, schematów SEO lub konwencji treści — **najpierw zajrzyj do projektu wrocławskiego**. Tam znajduje się dojrzalsza implementacja, której rozwiązania warto przenosić tutaj:
-- układ katalogów `app/`, `components/`, `lib/`, `content/`
-- komponenty home page (`HomeAbout`, `HomeHighlights`, `HomeServices`, `HomeTestimonials`, `HomeSafety`, `HomeClosing`, `HomeCTA`, `HomeEligibility`, `HomeWhatIs`)
-- system treści w `content/` (artykuły, strony, globals, listy)
-- `lib/seo.ts`, `lib/schema.ts`, `lib/site.ts` — wzorzec konfiguracji SEO i danych site-wide
-- `sitemap.ts`, `robots.ts`
+**Aliasy dev** (do dodania w `/etc/hosts` lub przez `*.lvh.me`):
+- `katowice.localhost:3000`
+- `szczecin.localhost:3000`
 
-Bieżący stan tego repo (Katowice) jest **na wcześniejszym etapie rozwoju** i powinien być doprowadzony do tej samej jakości co Wrocław, **adaptując treści i dane lokalizacyjne** do Katowic (NAP, schema LocalBusiness, breadcrumbs, teksty, linki wewnętrzne). Po ujednoliceniu oba repo będą równoznaczne — bez relacji wzorzec/kopia.
+**Default tenant** (gdy host nieznany): Katowice — patrz `DEFAULT_SITE` w `src/lib/sites/index.ts`.
+
+**Projekty siostrzane** (osobne repo, historyczne):
+- [/home/wadysaw/Programming/detoks-wroclaw](/home/wadysaw/Programming/detoks-wroclaw) — dojrzalsza struktura content/MDX, źródło wzorców (komponenty home, lib/seo, lib/schema). Stopniowo migrujemy do multi-tenant tutaj.
 
 ## Stack
 
-- **Next.js 16** (App Router, Turbopack)
+- **Next.js 16** (App Router, Turbopack default)
 - React 19
 - TypeScript 5.8
 - Tailwind CSS 4
 
-> Uwaga: Next.js 16 wprowadza zmiany względem starszych wersji. Przed pisaniem kodu Next.js sprawdź `node_modules/next/dist/docs/` i bieżące API — nie zgaduj na podstawie wiedzy o Next 13/14/15.
+> Uwaga Next.js 16: `middleware.ts` zostało zdeprecjonowane i przemianowane na `proxy.ts` (runtime: Node.js, NIE Edge). `headers()`, `cookies()`, `params`, `searchParams` są async. `next lint` usunięte — używamy `eslint .`. Sprawdzaj `node_modules/next/dist/docs/` przed pisaniem nowego kodu Next.
 
 ## Komendy
 
 ```bash
-npm run dev      # dev server (Turbopack)
+npm run dev      # dev server (Turbopack default)
 npm run build    # production build
 npm run start    # start built app
-npm run lint     # ESLint (eslint-config-next)
+npm run lint     # ESLint flat config
 ```
 
-## Struktura
+## Architektura multi-tenant
 
 ```
 src/
-├── app/                          # App Router
-│   ├── layout.tsx
-│   ├── page.tsx                  # strona główna
-│   ├── blog/
-│   ├── kontakt/
-│   ├── leczenie-alkoholizmu-katowice/
-│   ├── sitemap.ts
-│   ├── robots.ts
-│   └── manifest.ts
-├── components/
+├── proxy.ts                     # host routing + cross-city guard (Next 16: proxy, nie middleware)
+├── app/
+│   ├── layout.tsx               # async getCurrentSite() → przekazuje site do Header/Footer/ERejestracjaModal
+│   ├── page.tsx                 # async, content z lib/content/home.ts wg site.key
+│   ├── kontakt/page.tsx         # async, content z lib/content/kontakt.ts
+│   ├── blog/                    # async, filtruje posty przez getBlogPostsForSite()
+│   ├── leczenie-alkoholizmu-katowice/page.tsx  # tenant guard → notFound() jeśli site != katowice
+│   ├── leczenie-alkoholizmu-szczecin/page.tsx  # tenant guard → notFound() jeśli site != szczecin
+│   ├── 404-cross-city/page.tsx  # cel rewrite z proxy.ts dla obcych slugów
+│   ├── sitemap.ts, robots.ts, manifest.ts      # async, per-host
 ├── lib/
-└── styles/
-public/                           # ikony, logo, obrazy
+│   ├── sites/                   # MULTI-TENANT CORE
+│   │   ├── types.ts             # SiteConfig
+│   │   ├── katowice.ts          # config Katowic
+│   │   ├── szczecin.ts          # config Szczecina
+│   │   └── index.ts             # getCurrentSite (async), resolveSiteByHost, sitesByKey
+│   ├── content/                 # treści per-tenant (anty duplicate content SEO)
+│   │   ├── home.ts              # HomeContent dla katowice + szczecin
+│   │   └── kontakt.ts           # KontaktContent dla katowice + szczecin
+│   ├── navigation.ts            # getNavLinks(site) — slug per miasto
+│   └── blog.ts                  # getBlogPostsForSite — posty z polem `sites: SiteKey[]`
+├── components/                  # SHARED, ale przyjmują `site` jako prop tam gdzie trzeba
+│   ├── layout/{header,footer}.tsx        # accept site + navLinks props
+│   ├── e-rejestracja-modal.tsx           # accept predefinedCityName, predefinedCategoryId
+│   └── seo/json-ld.tsx                   # createLocalBusinessSchema, createWebsiteSchema
 ```
+
+## Dodanie kolejnego miasta (np. `detoks.poznan.pl`)
+
+1. **`src/lib/sites/poznan.ts`** — analogiczny config (NAP, geo, areaServed, brand)
+2. **`src/lib/sites/index.ts`** — dopisać do `sitesByKey` i `HOST_MAP` oraz dodać przypadek w `resolveSiteByKey`
+3. **`src/lib/sites/types.ts`** — rozszerzyć `SiteKey` typ
+4. **`src/lib/content/home.ts`** + **`kontakt.ts`** — dorzucić unikalne treści dla Poznania
+5. **`src/lib/blog.ts`** — w razie potrzeby dodać posty dla `poznan` (pole `sites: ["poznan", ...]`)
+6. **`src/app/leczenie-alkoholizmu-poznan/page.tsx`** — własny content miejski + `notFound()` guard, gdy site.key różny
+7. **Vercel:** dodać `detoks.poznan.pl` jako domenę projektu
+8. **DNS:** CNAME `detoks.poznan.pl` → Vercel
 
 ## Konwencje
 
-- **Język treści:** polski (PL). Wszystkie teksty user-facing, meta, slugi URL — po polsku.
-- **Slugi URL:** kebab-case, z lokalizacją w nazwie tam, gdzie to ma sens SEO (np. `leczenie-alkoholizmu-katowice`).
-- **Komponenty:** PascalCase, jeden komponent na plik.
-- **Canonical URL:** dodawany do każdej podstrony (zob. ostatnie commity).
-- **Favicony:** `src/app/icon.png` + `src/app/apple-icon.png` (PNG, generowane przez Next).
+- **Język treści:** polski (PL).
+- **Slugi miejskie URL:** `/leczenie-alkoholizmu-<city>` — statyczne foldery `app/`, każdy z tenant guardem.
+- **`getCurrentSite()` zawsze async** — `headers()` w Next 16 jest async.
+- **Client components** (`"use client"`) NIE mogą wywołać `getCurrentSite()` — server `layout.tsx` przekazuje `site` jako prop.
+- **Canonical URL:** `${site.url}/<path>` — zawsze z hosta tenanta, nigdy hardcoded.
+- **Treści unikalne** — każdy tenant ma własną wersję tekstów w `src/lib/content/<page>.ts`. Nie używać prostych podstawień typu „w {{city}}" — Google to wykrywa.
 
-## SEO i lokalizacja
+## SEO i lokalizacja per-tenant
 
-To strona lokalna — Katowice. Przy każdej zmianie treści dbać o:
-- spójność NAP (nazwa, adres, telefon) w całym serwisie
-- schema.org `LocalBusiness` / `MedicalBusiness` z poprawnymi danymi katowickimi
-- canonical URL z domeny katowickiej, **nie** kopiować z wrocławskiej
-- treści unikalne (nie duplikować 1:1 z wroclaw — Google traktuje sieć stron lokalnych jako duplicate content, jeśli treści są identyczne)
+- `LocalBusiness` schema z `site.cityName`, `site.postalCode`, `site.geo` (lat/lon)
+- `areaServed` z aglomeracji miejskiej (`site.areaServed`)
+- `sitemap.xml` zwraca URLe tylko z hosta bieżącego tenanta
+- `robots.txt` → `Sitemap: ${site.url}/sitemap.xml`, `Host: ${site.url}`
+- Cross-city slug (np. `/leczenie-alkoholizmu-szczecin` na `detoks.katowice.pl`) → rewrite do `/404-cross-city` przez proxy → `notFound()`. Disallow `/404-cross-city` w `robots.txt`
 
 ## Pracując nad zmianami
 
-1. Jeśli zmiana ma odpowiednik w projekcie wrocławskim → najpierw przeczytaj jak to jest zrobione tam.
-2. Adaptuj, nie kopiuj — podmień Wrocław → Katowice w treściach, danych, linkach.
-3. Komponenty wielokrotnego użytku mogą być przeniesione 1:1, ale wszystko co dotyczy danych lokalnych (adres, telefon, mapy, kierunki dojazdu, lokalne placówki) musi być przepisane.
+1. Zmiana strukturalna komponentu — sprawdź czy w obu tenantach renderuje się poprawnie.
+2. Nowa treść — pisz unikalnie per tenant w `src/lib/content/`. Nie kopiuj 1:1.
+3. Dodanie pola do `SiteConfig` — uzupełnij we wszystkich tenantach (`katowice.ts`, `szczecin.ts`).
+4. Klient component potrzebuje site — przekaż jako prop z najbliższego server parenta.
+5. Jeśli nowa strona ma być per-tenant — twórz dedykowany folder `/leczenie-X-<city>/` z `notFound()` guardem. Jeśli per-page content się różni ale URL jest wspólny — dorzuć do `src/lib/content/<page>.ts`.
+6. Każda async function (`page`, `generateMetadata`, `layout`, `sitemap`, `robots`, `manifest`) musi mieć `async` w sygnaturze.
+
+## Kompendium medyczne
+
+`.claude/skills/kompendium-detoks/` — wspólny knowledge base medyczny (AWS, CIWA-Ar, DT, protokoły BZD, tiamina, refeeding, …). Służy jako źródło dla generowania treści, ale **nie kopiować z niego dosłownie** do podstron — każde miasto dostaje własne sformułowania.
