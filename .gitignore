@@ -39,3 +39,6 @@ yarn-error.log*
 next-env.d.ts
 
 .claude
+
+# drafty tekstów źródłowych do artykułów (nie wchodzi do builda)
+/teksty na bloga/

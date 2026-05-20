@@ -6,6 +6,7 @@ import {
   HeroSection,
   StatsSection,
   PricingSection,
+  BlogTilesSection,
 } from "@/components/ui";
 import {
   JsonLd,
@@ -15,6 +16,7 @@ import {
 import { getCurrentSite } from "@/lib/sites";
 import { getPricing } from "@/lib/pricing";
 import { getHomeContent } from "@/lib/content/home";
+import { getLatestBlogPostsForSite } from "@/lib/blog";
 
 const pricing = getPricing();
 
@@ -28,6 +30,7 @@ const stats = [
 export default async function HomePage() {
   const site = await getCurrentSite();
   const content = getHomeContent(site.key);
+  const latestPosts = getLatestBlogPostsForSite(site.key, 3);
 
   return (
     <>
@@ -152,6 +155,8 @@ export default async function HomePage() {
           </div>
         </div>
       </Section>
+
+      <BlogTilesSection posts={latestPosts} author={site.author} />
 
       <Section id="kontakt" className="cta-section bg-primary-500 text-white">
         <div className="cta-section__content text-center">
