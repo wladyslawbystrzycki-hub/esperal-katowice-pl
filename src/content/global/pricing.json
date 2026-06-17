@@ -5,38 +5,11 @@
       "label": "Wszywka alkoholowa",
       "tiles": [
         {
-          "title": "Wszywka alkoholowa Standard z własnym lekiem",
-          "price": "od 349 zł",
-          "priceType": "Uniemożliwienie spożywania alkoholu.",
-          "ctaLabel": "Kup teraz!",
-          "benefits": [
-            "Darmowa konsultacja z lekarzem online",
-            "Blokada uzależnienia",
-            "Antybiotyk na receptę",
-            "Szwy rozpuszczalne lub nierozpuszczalne",
-            "Zwolnienie lekarskie L4"
-          ]
-        },
-        {
-          "title": "Wszywka alkoholowa Standard",
-          "price": "od 899 zł",
-          "priceType": "Uniemożliwienie spożywania alkoholu.",
-          "ctaLabel": "Kup teraz!",
-          "benefits": [
-            "Darmowa konsultacja z lekarzem online",
-            "Blokada uzależnienia",
-            "Antybiotyk na receptę",
-            "Szwy rozpuszczalne lub nierozpuszczalne",
-            "Zwolnienie lekarskie L4"
-          ]
-        },
-        {
           "title": "Wszywka alkoholowa VIP",
-          "price": "od 1199 zł",
+          "price": "1799 zł",
           "priceType": "Uniemożliwienie spożywania alkoholu.",
           "ctaLabel": "Kup teraz!",
           "benefits": [
-            "Zwiększona dawka leku",
             "Nici rozpuszczalne",
             "Antybiotyk domięśniowo",
             "1 bezpłatna wizyta",
@@ -45,17 +18,34 @@
           ]
         },
         {
-          "title": "Wszywka alkoholowa Exclusive",
-          "price": "od 2000 zł",
-          "priceType": "Najwyższy standard farmakoterapii",
+          "title": "Komplet 6 h + wszywka",
+          "price": "2699 zł",
+          "priceType": "Detoks 6h połączony z zaszyciem.",
           "ctaLabel": "Kup teraz!",
           "benefits": [
-            "Najwyższa dawka leku",
-            "Nici rozpuszczalne",
+            "Detoks alkoholowy 6h",
+            "Wszywka alkoholowa VIP",
+            "Przerwanie ciągu alkoholowego",
+            "Wyrównanie elektrolitów",
             "Antybiotyk domięśniowo",
-            "2 bezpłatne wizyty",
             "Darmowa konsultacja z lekarzem online",
-            "Wysoka skuteczność"
+            "Zwolnienie L4"
+          ]
+        },
+        {
+          "title": "Komplet 12 h + wszywka",
+          "price": "3299 zł",
+          "priceType": "Detoks 12h połączony z zaszyciem.",
+          "ctaLabel": "Kup teraz!",
+          "benefits": [
+            "Detoks alkoholowy 12h",
+            "Wszywka alkoholowa VIP",
+            "Przerwanie ciągu alkoholowego",
+            "Wyrównanie elektrolitów",
+            "Wypłukanie toksyn",
+            "Antybiotyk domięśniowo",
+            "Darmowa konsultacja z lekarzem online",
+            "Zwolnienie L4"
           ]
         }
       ]
