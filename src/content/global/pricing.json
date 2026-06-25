@@ -5,6 +5,19 @@
       "label": "Wszywka alkoholowa",
       "tiles": [
         {
+          "title": "Wszywka alkoholowa Standard",
+          "price": "1299 zł",
+          "priceType": "Uniemożliwienie spożywania alkoholu.",
+          "ctaLabel": "Kup teraz!",
+          "benefits": [
+            "Darmowa konsultacja z lekarzem online",
+            "Blokada uzależnienia",
+            "Antybiotyk na receptę",
+            "Szwy rozpuszczalne lub nierozpuszczalne",
+            "Zwolnienie lekarskie L4"
+          ]
+        },
+        {
           "title": "Wszywka alkoholowa VIP",
           "price": "1499 zł",
           "priceType": "Uniemożliwienie spożywania alkoholu.",
